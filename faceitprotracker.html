@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5">
+    <title>FACEIT TRACKER PRO</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app" id="app">
+        <header class="app-header">
+            <h1><span>▶</span> FACEIT TRACKER PRO</h1>
+            <div id="currentUser" class="user-display">👤 Игрок</div>
+        </header>
+
+        <nav class="tab-bar">
+            <button class="tab-btn active" data-tab="dashboard">📊 Панель</button>
+            <button class="tab-btn" data-tab="matches">📋 Матчи</button>
+            <button class="tab-btn" data-tab="analytics">📈 Аналитика</button>
+            <button class="tab-btn" data-tab="maps">🗺️ Карты</button>
+            <button class="tab-btn" data-tab="goals">🎯 Цели</button>
+            <button class="tab-btn" data-tab="profile">👤 Профиль</button>
+            <button class="tab-btn" data-tab="ranking">🏆 Рейтинг</button>
+        </nav>
+
+        <!-- DASHBOARD -->
+        <div id="tab-dashboard">
+            <div class="card-grid" id="statsGrid"></div>
+
+            <div class="form-section" id="matchForm">
+                <div class="form-group"><label>Дата</label><input type="date" id="matchDate"></div>
+                <div class="form-group"><label>Карта</label>
+                    <select id="matchMap">
+                        <option>Mirage</option><option>Inferno</option><option>Dust2</option>
+                        <option>Nuke</option><option>Ancient</option><option>Anubis</option>
+                        <option>Cache</option><option>Overpass</option>
+                    </select>
+                </div>
+                <div class="form-group"><label>Счёт</label><input type="text" id="matchScore" placeholder="16-14"></div>
+                <div class="form-group"><label>Результат</label>
+                    <select id="matchResult"><option value="win">Победа</option><option value="loss">Поражение</option></select>
+                </div>
+                <div class="form-group"><label>Elo до</label><input type="number" id="matchEloBefore" value="1500"></div>
+                <div class="form-group"><label>Elo после</label><input type="number" id="matchEloAfter" value="1525"></div>
+                <div class="form-group"><label>Рейтинг</label><input type="number" id="matchRating" step="0.01" value="1.10"></div>
+                <div class="form-group"><label>K</label><input type="number" id="matchKills" value="18"></div>
+                <div class="form-group"><label>D</label><input type="number" id="matchDeaths" value="15"></div>
+                <div class="form-group"><label>A</label><input type="number" id="matchAssists" value="5"></div>
+                <div class="form-group"><label>ADR</label><input type="number" id="matchAdr" value="78.5" step="0.1"></div>
+                <div class="form-group"><label>KAST %</label><input type="number" id="matchKast" value="72" step="1"></div>
+                <div class="form-group"><label>Entry Kills</label><input type="number" id="matchEntry" value="2"></div>
+                <div class="form-group"><label>Clutches</label><input type="number" id="matchClutches" value="
