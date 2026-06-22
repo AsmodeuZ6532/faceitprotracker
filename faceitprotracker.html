@@ -49,4 +49,135 @@
                 <div class="form-group"><label>ADR</label><input type="number" id="matchAdr" value="78.5" step="0.1"></div>
                 <div class="form-group"><label>KAST %</label><input type="number" id="matchKast" value="72" step="1"></div>
                 <div class="form-group"><label>Entry Kills</label><input type="number" id="matchEntry" value="2"></div>
-                <div class="form-group"><label>Clutches</label><input type="number" id="matchClutches" value="
+                <div class="form-group"><label>Clutches</label><input type="number" id="matchClutches" value="1"></div>
+                <div class="form-group"><label>Роль</label>
+                    <select id="matchRole"><option>AWP</option><option>Rifler</option><option>Lurker</option><option>IGL</option><option>Support</option></select>
+                </div>
+                <div class="form-group"><label>Комментарий</label><input type="text" id="matchComment" placeholder="Кратко"></div>
+                <div class="form-group" style="flex:0 0 auto;"><button class="btn" id="saveMatchBtn">➕ Добавить</button></div>
+            </div>
+
+            <div class="chart-container">
+                <h3>📈 График Elo</h3>
+                <canvas id="eloChart"></canvas>
+            </div>
+        </div>
+
+        <!-- MATCHES -->
+        <div id="tab-matches" class="hidden">
+            <div class="search-sort">
+                <input type="text" id="searchMatches" placeholder="🔍 Поиск по карте, комментарию..." style="flex:2; min-width:180px;">
+                <div class="filter-group">
+                    <button class="filter-btn active" data-period="all">Все</button>
+                    <button class="filter-btn" data-period="day">День</button>
+                    <button class="filter-btn" data-period="week">Неделя</button>
+                    <button class="filter-btn" data-period="month">Месяц</button>
+                    <button class="filter-btn" data-period="year">Год</button>
+                    <button class="filter-btn" data-period="last30">Последние 30</button>
+                </div>
+                <select id="sortMatches">
+                    <option value="date-desc">📅 Новые</option>
+                    <option value="date-asc">📅 Старые</option>
+                    <option value="elo">Elo изменение</option>
+                    <option value="rating">Рейтинг</option>
+                </select>
+                <button class="btn btn-outline btn-sm" id="exportJsonBtn">⬇ JSON</button>
+                <button class="btn btn-outline btn-sm" id="exportCsvBtn">⬇ CSV</button>
+                <button class="btn btn-outline btn-sm" id="importBtn">⬆ Импорт</button>
+                <input type="file" id="importFileInput" accept=".json" style="display:none">
+            </div>
+            <div class="table-wrap">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Дата</th>
+                            <th>Карта</th>
+                            <th>Результат</th>
+                            <th>Счёт</th>
+                            <th>Рейтинг</th>
+                            <th>K/D</th>
+                            <th>ADR</th>
+                            <th>Elo Δ</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody id="matchesTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- ANALYTICS -->
+        <div id="tab-analytics" class="hidden">
+            <div class="analytics-grid" id="analyticsCards"></div>
+            <div class="chart-container">
+                <h3>📊 Рейтинг и ADR по матчам</h3>
+                <canvas id="ratingAdrChart"></canvas>
+            </div>
+            <div class="chart-container">
+                <h3>📊 Винрейт по матчам (скользящее окно 5)</h3>
+                <canvas id="winrateChart"></canvas>
+            </div>
+        </div>
+
+        <!-- MAPS -->
+        <div id="tab-maps" class="hidden">
+            <div class="map-grid" id="mapGrid"></div>
+        </div>
+
+        <!-- GOALS -->
+        <div id="tab-goals" class="hidden">
+            <div class="goal-progress" id="goalProgressContainer"></div>
+            <div class="form-section" style="margin-top:10px;">
+                <div class="form-group"><label>Цель Elo</label><input type="number" id="goalElo" value="2000"></div>
+                <div class="form-group"><label>Цель рейтинг</label><input type="number" id="goalRating" step="0.1" value="1.5"></div>
+                <div class="form-group"><label>Цель ADR</label><input type="number" id="goalAdr" value="90"></div>
+                <div class="form-group"><label>Цель Winrate %</label><input type="number" id="goalWinrate" value="60"></div>
+                <div class="form-group" style="flex:0;"><button class="btn" id="setGoalsBtn">Сохранить цели</button></div>
+            </div>
+        </div>
+
+        <!-- PROFILE -->
+        <div id="tab-profile" class="hidden">
+            <div class="card" style="max-width:600px;">
+                <div style="display:flex; gap:20px; align-items:center; flex-wrap:wrap;">
+                    <div style="background:#333; width:80px; height:80px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:2.5rem;">🎮</div>
+                    <div style="flex:1;">
+                        <div class="profile-edit">
+                            <input type="text" id="profileNameInput" placeholder="Введите никнейм">
+                            <button class="btn btn-sm btn-success" id="saveProfileName">Сохранить</button>
+                        </div>
+                        <p id="profileRole" style="margin-top:8px;">Роль: AWP</p>
+                        <p id="profileMaps">Любимые карты: —</p>
+                    </div>
+                </div>
+                <div style="margin-top:16px; display:grid; grid-template-columns:1fr 1fr; gap:6px;">
+                    <div><span class="orange">Матчей:</span> <span id="profileMatches">0</span></div>
+                    <div><span class="orange">Winrate:</span> <span id="profileWinrate">0%</span></div>
+                    <div><span class="orange">Ср. рейтинг:</span> <span id="profileRating">0.00</span></div>
+                    <div><span class="orange">Ср. ADR:</span> <span id="profileAdr">0</span></div>
+                    <div><span class="orange">K/D:</span> <span id="profileKd">0.00</span></div>
+                    <div><span class="orange">Elo:</span> <span id="profileElo">0</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RANKING -->
+        <div id="tab-ranking" class="hidden">
+            <div style="margin-bottom:20px;">
+                <input type="text" id="searchUser" class="search-user-input" placeholder="🔍 Поиск игрока по нику...">
+            </div>
+            <div class="rank-table" id="rankTable"></div>
+        </div>
+    </div>
+
+    <script src="utils.js"></script>
+    <script src="data.js"></script>
+    <script src="stats.js"></script>
+    <script src="charts.js"></script>
+    <script src="matches.js"></script>
+    <script src="analytics.js"></script>
+    <script src="profile.js"></script>
+    <script src="ranking.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
